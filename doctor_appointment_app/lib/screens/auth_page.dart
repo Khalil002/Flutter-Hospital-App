@@ -48,7 +48,7 @@ class _AuthPageState extends State<AuthPage> {
               ),
             ),
             Config.spaceSmall,
-            isSignIn ? LoginForm() : SignUpForm(),
+            isSignIn ? const LoginForm() : const SignUpForm(),
             Config.spaceSmall,
             isSignIn
                 ? Center(
@@ -77,9 +77,9 @@ class _AuthPageState extends State<AuthPage> {
               ),
             ),
             Config.spaceSmall,
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: const <Widget>[
+              children: <Widget>[
                 SocialButton(social: 'google'),
                 SocialButton(social: 'facebook'),
               ],

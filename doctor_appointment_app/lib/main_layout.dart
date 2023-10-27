@@ -26,10 +26,10 @@ class _MainLayoutState extends State<MainLayout> {
             currentPage = value;
           });
         }),
-        children: <Widget>[
-          const HomePage(),
+        children: const <Widget>[
+          HomePage(),
           FavPage(),
-          const AppointmentPage(),
+          AppointmentPage(),
           ProfilePage(),
         ],
       ),
