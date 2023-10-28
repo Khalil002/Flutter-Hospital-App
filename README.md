@@ -2,6 +2,7 @@
 
 Deberia de poder correr si tienes Docker
 Corre el siguientes commandos en el host, en la carpeta de fresh-laravel:
+
 ./vendor/bin/sail up. 
 
 corre los siguientes commandos dentro del container 'fresh-laravel-laravel.test-1'
