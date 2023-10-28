@@ -1,7 +1,7 @@
 # Flutter-Hospital-App
 
-Deberia de poder correr si tienes Docker__
-Corre el siguientes commandos en el host, en la carpeta de fresh-laravel:__
+Deberia de poder correr si tienes Docker <br />
+Corre el siguientes commandos en el host, en la carpeta de fresh-laravel: <br />
 $./vendor/bin/sail up. 
 
 corre los siguientes commandos dentro del container 'fresh-laravel-laravel.test-1'
