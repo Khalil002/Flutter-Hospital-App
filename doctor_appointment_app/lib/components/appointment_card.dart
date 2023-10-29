@@ -36,7 +36,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(
-                        "http://127.0.0.1:8000${widget.doctor['doctor_profile']}"), //insert doctor profile
+                        "${widget.doctor['doctor_profile']}"), //insert doctor profile
                   ),
                   const SizedBox(
                     width: 10,

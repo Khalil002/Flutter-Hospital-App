@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../components//custom_appbar.dart';
 
+import 'dart:developer';
+
 class DoctorDetails extends StatefulWidget {
   const DoctorDetails({Key? key, required this.doctor, required this.isFav})
       : super(key: key);
@@ -115,6 +117,7 @@ class AboutDoctor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    log("${doctor['doctor_profile']}");
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -122,7 +125,7 @@ class AboutDoctor extends StatelessWidget {
           CircleAvatar(
             radius: 65.0,
             backgroundImage: NetworkImage(
-              "http://127.0.0.1:8000${doctor['doctor_profile']}",
+              "${doctor['doctor_profile']}",
             ),
             backgroundColor: Colors.white,
           ),

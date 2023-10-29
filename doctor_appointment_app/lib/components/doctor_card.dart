@@ -3,6 +3,8 @@ import 'package:doctor_appointment_app/screens/doctor_details.dart';
 import 'package:doctor_appointment_app/utils/config.dart';
 import 'package:flutter/material.dart';
 
+import 'dart:developer';
+
 class DoctorCard extends StatelessWidget {
   const DoctorCard({
     Key? key,
@@ -16,6 +18,8 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
+    log("${doctor['doctor_profile']}");
+    log("hello");
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       height: 150,
@@ -28,7 +32,7 @@ class DoctorCard extends StatelessWidget {
               SizedBox(
                 width: Config.widthSize * 0.33,
                 child: Image.network(
-                  "http://127.0.0.1:8000${doctor['doctor_profile']}",
+                  "${doctor['doctor_profile']}",
                   fit: BoxFit.fill,
                 ),
               ),
