@@ -38,6 +38,7 @@ class CreateNewUser implements CreatesNewUsers
 
         $doctorInfo = Doctor::create([
             'doc_id' => $user->id,
+            'experience' => 10, //cambiar a input o algo mas tarde
             'status' => 'active'
         ]);
 
