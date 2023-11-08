@@ -20,11 +20,11 @@ class _HomePageState extends State<HomePage> {
   Map<String, dynamic> user = {};
   Map<String, dynamic> doctor = {};
   List<dynamic> favList = [];
-  String _categoryController = "Any";
+  String _categoryController = "All";
   List<Map<String, dynamic>> medCat = [
     {
       "icon": FontAwesomeIcons.userDoctor,
-      "category": "Any",
+      "category": "All",
     },
     {
       "icon": FontAwesomeIcons.userDoctor,
@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                       Config.spaceSmall,
                       Column(
                         children: List.generate(user['doctor'].length, (index) {
-                          if (_categoryController == "Any" ||
+                          if (_categoryController == "All" ||
                               _categoryController ==
                                   user['doctor'][index]['category']) {
                             return DoctorCard(
