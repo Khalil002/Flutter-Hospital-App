@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                             child: CircleAvatar(
                               radius: 30,
                               backgroundImage:
-                                  AssetImage('assets/profile1.jpg'),
+                                  AssetImage('assets/profile2.jpg'),
                             ),
                           )
                         ],

@@ -3,10 +3,11 @@ import 'package:doctor_appointment_app/main.dart';
 import 'package:doctor_appointment_app/models/auth_model.dart';
 import 'package:doctor_appointment_app/providers/dio_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:provider/provider.dart';
 import '../utils/config.dart';
 import 'dart:developer';
-
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,8 +21,14 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
+  final _dateController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
+  String _sexController = 'male';
+  var items = [
+    'male',
+    'female',
+  ];
   bool obsecurePass = true;
   @override
   Widget build(BuildContext context) {
@@ -41,6 +48,62 @@ class _SignUpFormState extends State<SignUpForm> {
               prefixIcon: Icon(Icons.person_outlined),
               prefixIconColor: Config.primaryColor,
             ),
+          ),
+          Config.spaceSmall,
+          TextFormField(
+            controller: _dateController,
+            keyboardType: TextInputType.text,
+            cursorColor: Config.primaryColor,
+            onTap: () {
+              DatePicker.showDatePicker(context,
+                  showTitleActions: true,
+                  minTime: DateTime(1900, 1, 1),
+                  maxTime: DateTime.now(),
+                  onChanged: (date) {}, onConfirm: (date) {
+                _dateController.text = DateFormat('yyyy-MM-dd').format(date);
+                log(date.toString());
+              }, currentTime: DateTime.now(), locale: LocaleType.en);
+            },
+            decoration: const InputDecoration(
+              hintText: 'Birthdate',
+              labelText: 'Birthdate',
+              alignLabelWithHint: true,
+              prefixIcon: Icon(Icons.date_range),
+              prefixIconColor: Config.primaryColor,
+            ),
+          ),
+          Config.spaceSmall,
+          DropdownButtonFormField(
+            // Initial Value
+            value: _sexController,
+
+            // Down Arrow Icon
+            icon: const Icon(Icons.keyboard_arrow_down),
+            // Down Arrow Icon
+
+            decoration: InputDecoration(
+              hintText: 'Select Sex', // You can customize this hint text
+              labelText: 'Sex', // You can customize this label text
+              prefixIcon: Icon(_sexController == 'male'
+                  ? Icons.male_rounded
+                  : Icons.female_rounded),
+              prefixIconColor: Config.primaryColor,
+              alignLabelWithHint: true,
+            ),
+            // Array list of items
+            items: items.map((String items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text(items),
+              );
+            }).toList(),
+            // After selecting the desired option,it will
+            // change button value to selected value
+            onChanged: (String? newValue) {
+              setState(() {
+                _sexController = newValue!;
+              });
+            },
           ),
           Config.spaceSmall,
           TextFormField(
@@ -92,6 +155,8 @@ class _SignUpFormState extends State<SignUpForm> {
                 onPressed: () async {
                   final userRegistration = await DioProvider().registerUser(
                       _nameController.text,
+                      _dateController.text,
+                      _sexController,
                       _emailController.text,
                       _passController.text);
                   log("User registered to database");

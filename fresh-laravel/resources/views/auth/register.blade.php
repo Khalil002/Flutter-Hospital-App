@@ -14,6 +14,20 @@
                 <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             </div>
 
+            <div>
+                <x-label for="dateOfBirth" value="{{ __('Date Of Birth') }}" />
+                <x-input id="dateOfBirth" class="block mt-1 w-full" type="date" name="dateOfBirth" required autofocus />
+            </div>
+
+            <div class="mt-4">
+                <x-label for="password_confirmation" value="{{ __('Sex') }}" />
+                <select id='sex' name='sex' class="block mt-1 w-full rounded-lg">
+                    <option value="" selected disabled hidden>{{ __('Choose Sex') }}</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
             <div class="mt-4">
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
 
 class DioProvider {
   //get token
@@ -36,11 +37,19 @@ class DioProvider {
   }
 
   //register new user
-  Future<dynamic> registerUser(
-      String username, String email, String password) async {
+  Future<dynamic> registerUser(String username, String dateOfBirth, String sex,
+      String email, String password) async {
     try {
-      var user = await Dio().post('http://127.0.0.1:80/api/register',
-          data: {'name': username, 'email': email, 'password': password});
+      log("fucking");
+      log(dateOfBirth.toString());
+      log(sex);
+      var user = await Dio().post('http://127.0.0.1:80/api/register', data: {
+        'name': username,
+        'dateOfBirth': dateOfBirth,
+        'sex': sex,
+        'email': email,
+        'password': password
+      });
       if (user.statusCode == 201 && user.data != '') {
         return true;
       } else {
