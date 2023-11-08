@@ -2,6 +2,7 @@ import 'package:doctor_appointment_app/components/appointment_card.dart';
 import 'package:doctor_appointment_app/components/doctor_card.dart';
 import 'package:doctor_appointment_app/models/auth_model.dart';
 import 'package:doctor_appointment_app/utils/config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,12 @@ class _HomePageState extends State<HomePage> {
   Map<String, dynamic> user = {};
   Map<String, dynamic> doctor = {};
   List<dynamic> favList = [];
+  String _categoryController = "Any";
   List<Map<String, dynamic>> medCat = [
+    {
+      "icon": FontAwesomeIcons.userDoctor,
+      "category": "Any",
+    },
     {
       "icon": FontAwesomeIcons.userDoctor,
       "category": "General",
@@ -107,6 +113,8 @@ class _HomePageState extends State<HomePage> {
                             return GestureDetector(
                               onTap: () {
                                 log(medCat[index]['category']);
+                                _categoryController = medCat[index]['category'];
+                                setState(() {});
                               },
                               child: Card(
                                 margin: const EdgeInsets.only(right: 20),
@@ -184,14 +192,20 @@ class _HomePageState extends State<HomePage> {
                       Config.spaceSmall,
                       Column(
                         children: List.generate(user['doctor'].length, (index) {
-                          return DoctorCard(
-                            doctor: user['doctor'][index],
-                            //if lates fav list contains particular doctor id, then show fav icon
-                            isFav: favList
-                                    .contains(user['doctor'][index]['doc_id'])
-                                ? true
-                                : false,
-                          );
+                          if (_categoryController == "Any" ||
+                              _categoryController ==
+                                  user['doctor'][index]['category']) {
+                            return DoctorCard(
+                              doctor: user['doctor'][index],
+                              //if lates fav list contains particular doctor id, then show fav icon
+                              isFav: favList
+                                      .contains(user['doctor'][index]['doc_id'])
+                                  ? true
+                                  : false,
+                            );
+                          } else {
+                            return const SizedBox.shrink();
+                          }
                         }),
                       ),
                     ],

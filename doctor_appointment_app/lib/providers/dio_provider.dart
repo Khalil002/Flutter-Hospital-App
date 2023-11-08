@@ -40,9 +40,6 @@ class DioProvider {
   Future<dynamic> registerUser(String username, String dateOfBirth, String sex,
       String email, String password) async {
     try {
-      log("fucking");
-      log(dateOfBirth.toString());
-      log(sex);
       var user = await Dio().post('http://127.0.0.1:80/api/register', data: {
         'name': username,
         'dateOfBirth': dateOfBirth,

@@ -18,8 +18,6 @@ class DoctorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Config().init(context);
-    log("${doctor['doctor_profile']}");
-    log("hello");
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       height: 150,

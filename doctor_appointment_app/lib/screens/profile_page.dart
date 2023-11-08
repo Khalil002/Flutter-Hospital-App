@@ -1,5 +1,3 @@
-import "dart:math";
-
 import "package:doctor_appointment_app/main.dart";
 import "package:doctor_appointment_app/utils/config.dart";
 import "package:flutter/material.dart";
@@ -61,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   builder: (context, auth, child) {
                     return Text(
                       auth.getUser['name'],
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 20,
                       ),
@@ -76,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   builder: (context, auth, child) {
                     return Text(
                       profileDetails(auth.getUser),
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                       ),

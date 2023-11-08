@@ -20,7 +20,7 @@
             </div>
 
             <div class="mt-4">
-                <x-label for="password_confirmation" value="{{ __('Sex') }}" />
+                <x-label for="sex" value="{{ __('Sex') }}" />
                 <select id='sex' name='sex' class="block mt-1 w-full rounded-lg">
                     <option value="" selected disabled hidden>{{ __('Choose Sex') }}</option>
                     <option value="male">Male</option>

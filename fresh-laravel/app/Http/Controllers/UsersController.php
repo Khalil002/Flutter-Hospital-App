@@ -18,6 +18,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $user = array(); //this will return a set of user and doctor data

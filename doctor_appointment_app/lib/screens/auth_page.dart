@@ -1,6 +1,6 @@
 import 'package:doctor_appointment_app/components/login_form.dart';
 import 'package:doctor_appointment_app/components/sign_up_form.dart';
-import 'package:doctor_appointment_app/components/social_button.dart';
+
 import 'package:doctor_appointment_app/utils/text.dart';
 import 'package:flutter/material.dart';
 
