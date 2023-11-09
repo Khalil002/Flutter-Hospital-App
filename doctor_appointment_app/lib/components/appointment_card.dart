@@ -5,6 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'dart:developer';
+import "package:provider/provider.dart";
+import "../models/auth_model.dart";
+import 'dart:convert';
+
 class AppointmentCard extends StatefulWidget {
   const AppointmentCard({Key? key, required this.doctor, required this.color})
       : super(key: key);
@@ -67,6 +72,7 @@ class _AppointmentCardState extends State<AppointmentCard> {
               ),
               Config.spaceSmall,
               //action button
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -94,50 +100,89 @@ class _AppointmentCardState extends State<AppointmentCard> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return RatingDialog(
-                                  initialRating: 1.0,
-                                  title: const Text(
-                                    'Rate the Doctor',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  message: const Text(
-                                    'Please help us to rate our Doctor',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                    ),
-                                  ),
-                                  image: const FlutterLogo(
-                                    size: 100,
-                                  ),
-                                  submitButtonText: 'Submit',
-                                  commentHint: 'Your Reviews',
-                                  onSubmitted: (response) async {
-                                    final SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    final token =
-                                        prefs.getString('token') ?? '';
+                              return Consumer<AuthModel>(
+                                builder: (context, auth, child) {
+                                  return RatingDialog(
+                                      initialRating: 1.0,
+                                      title: const Text(
+                                        'Rate the Doctor',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      message: const Text(
+                                        'Please help us to rate our Doctor',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                                      image: const FlutterLogo(
+                                        size: 100,
+                                      ),
+                                      submitButtonText: 'Submit',
+                                      commentHint: 'Your Reviews',
+                                      onSubmitted: (response) async {
+                                        final SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        final token =
+                                            prefs.getString('token') ?? '';
 
-                                    final rating = await DioProvider()
-                                        .storeReviews(
-                                            response.comment,
-                                            response.rating,
-                                            widget.doctor['appointments']
-                                                ['id'], //this is appointment id
-                                            widget.doctor[
-                                                'doc_id'], //this is doctor id
-                                            token);
+                                        final rating = await DioProvider()
+                                            .storeReviews(
+                                                response.comment,
+                                                response.rating,
+                                                widget.doctor['appointments'][
+                                                    'id'], //this is appointment id
+                                                widget.doctor[
+                                                    'doc_id'], //this is doctor id
+                                                token);
 
-                                    //if successful, then refresh
-                                    if (rating == 200 && rating != '') {
-                                      MyApp.navigatorKey.currentState!
-                                          .pushNamed('main');
-                                    }
-                                  });
+                                        //if successful, then refresh
+                                        if (rating == 200 && rating != '') {
+                                          final response = await DioProvider()
+                                              .getUser(token);
+
+                                          if (response != null) {
+                                            setState(() {
+                                              //json decode
+                                              Map<String, dynamic> appointment =
+                                                  {};
+                                              final user =
+                                                  json.decode(response);
+
+                                              //check if any appointment today
+                                              for (var doctorData
+                                                  in user['doctor']) {
+                                                //if there is appointment return for today
+
+                                                if (doctorData[
+                                                        'appointments'] !=
+                                                    null) {
+                                                  appointment = doctorData;
+                                                }
+                                              }
+
+                                              auth.loginSuccess(
+                                                  user, appointment);
+
+                                              MyApp.navigatorKey.currentState!
+                                                  .pushNamed('main');
+                                            });
+                                          }
+                                          //get user data
+
+                                          //MyApp.navigatorKey.currentState!
+                                          // .pushNamed('main');
+                                        }
+                                      });
+                                },
+
+                                //child:
+                              );
                             });
                       },
                       child: const Text(

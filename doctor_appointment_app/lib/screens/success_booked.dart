@@ -34,7 +34,9 @@ class AppointmentBooked extends StatelessWidget {
               child: Button(
                 width: double.infinity,
                 title: 'Back to Home Page',
-                onPressed: () => Navigator.of(context).pushNamed('main'),
+                onPressed: () {
+                  Navigator.of(context).pushNamed('main');
+                },
                 disable: false,
               ),
             )

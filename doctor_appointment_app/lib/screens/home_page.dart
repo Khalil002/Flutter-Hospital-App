@@ -53,6 +53,13 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Reload logic here
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     Config().init(context);
     user = Provider.of<AuthModel>(context, listen: false).getUser;

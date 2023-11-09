@@ -62,4 +62,10 @@ class AuthModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  void modifyAppointments(Map<String, dynamic> appointmentInfo) {
+    _isLogin = true;
+
+    notifyListeners();
+  }
 }
