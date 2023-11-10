@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Appointments;
 use App\Models\Reviews;
 use Illuminate\Http\Request;
@@ -66,11 +67,13 @@ class DocsController extends Controller
         $reviews->reviews = $request->get('reviews');
         $reviews->reviewed_by = Auth::user()->name;
         $reviews->status = 'active';
-        $reviews->save();
+        
 
         //change appointment status
         $appointment->status = 'complete';
+
         $appointment->save();
+        $reviews->save();
 
         return response()->json([
             'success'=>'The appointment has been completed and reviewed successfully!',
