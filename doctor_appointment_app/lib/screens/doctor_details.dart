@@ -187,6 +187,7 @@ class DetailBody extends StatelessWidget {
           DoctorInfo(
             patients: doctor['patients'],
             exp: doctor['experience'],
+            rating: doctor['doctor_rating'],
           ),
           Config.spaceMedium,
           const Text(
@@ -210,11 +211,16 @@ class DetailBody extends StatelessWidget {
 }
 
 class DoctorInfo extends StatelessWidget {
-  const DoctorInfo({Key? key, required this.patients, required this.exp})
+  const DoctorInfo(
+      {Key? key,
+      required this.patients,
+      required this.exp,
+      required this.rating})
       : super(key: key);
 
   final int patients;
   final int exp;
+  final String rating;
 
   @override
   Widget build(BuildContext context) {
@@ -234,9 +240,9 @@ class DoctorInfo extends StatelessWidget {
         const SizedBox(
           width: 15,
         ),
-        const InfoCard(
+        InfoCard(
           label: 'Rating',
-          value: '4.6',
+          value: "${rating}",
         ),
       ],
     );

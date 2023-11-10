@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Appointments;
 use App\Models\User;
 use App\Models\Doctor;
+use App\Models\Reviews;
 use App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -21,35 +22,52 @@ class UsersController extends Controller
 
     public function index()
     {
-        $user = array(); //this will return a set of user and doctor data
-        $user = Auth::user();
-        $doctor = User::where('type', 'doctor')->get();
-        $details = $user->user_details;
-        $doctorData = Doctor::all();
-        //this is the date format without leading
-        $date = now()->format('n/j/Y'); //change date format to suit the format in database
-
-        //make this appointment filter only status is "upcoming"
-        $appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();
-
-        //collect user data and all doctor details
-        foreach($doctorData as $data){
-            //sorting doctor name and doctor details
-            foreach($doctor as $info){
-                if($data['doc_id'] == $info['id']){
-                    $data['doctor_name'] = $info['name'];
-                    $data['doctor_profile'] = $info['profile_photo_url'];
-                    if(isset($appointment) && $appointment['doc_id'] == $info['id']){
-                        $data['appointments'] = $appointment;
+        try {
+            $user = array(); //this will return a set of user and doctor data
+            $user = Auth::user();
+            $doctor = User::where('type', 'doctor')->get();
+            $details = $user->user_details;
+            $reviews = Reviews::all();
+            $doctorData = Doctor::all();
+            //this is the date format without leading
+            $date = now()->format('n/j/Y'); //change date format to suit the format in database
+    
+            //make this appointment filter only status is "upcoming"
+            $appointment = Appointments::where('status', 'upcoming')->where('date', $date)->first();
+    
+            //collect user data and all doctor details
+            foreach($doctorData as $data){
+                //sorting doctor name and doctor details
+                foreach($doctor as $info){
+                    if($data['doc_id'] == $info['id']){
+                        $data['doctor_name'] = $info['name'];
+                        $data['doctor_profile'] = $info['profile_photo_url'];
+                        if(isset($appointment) && $appointment['doc_id'] == $info['id']){
+                            $data['appointments'] = $appointment;
+                        }
                     }
                 }
+                $rating = 0;
+                $numOfReviews = 0;
+                foreach($reviews as $review){
+                    if($review['doc_id'] == $data['doc_id']){
+                        $rating += intval($review['ratings']);
+                        $numOfReviews += 1;
+                    }
+                }
+                $data['doctor_rating'] = strval(number_format($numOfReviews > 0 ? $rating / $numOfReviews : 0, 1, '.', ''));
+                $data['doctor_numOfReviews'] = strval($numOfReviews);
             }
+            
+    
+            $user['doctor'] = $doctorData;
+            $user['details'] = $details; //return user details here together with doctor list
+    
+            return $user; //return all data
+        } catch (Exception $e) {
+            return $e->getMessage();
         }
-
-        $user['doctor'] = $doctorData;
-        $user['details'] = $details; //return user details here together with doctor list
-
-        return $user; //return all data
+       
     }
 
     /**

@@ -41,6 +41,17 @@ class DocsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function cancelAppointment(Request $request){
+        $appointment = Appointments::where('id', $request->get('appointment_id'))->first();
+        $appointment->status = 'cancelled';
+        $appointment->save();
+
+        return response()->json([
+            'success'=>'The appointment has been cancelled successfully!',
+        ], 200);
+    }
+    
     public function store(Request $request)
     {
         //this controller is to store booking details post from mobile app

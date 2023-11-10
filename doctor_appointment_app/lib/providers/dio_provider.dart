@@ -32,6 +32,8 @@ class DioProvider {
         return json.encode(user.data);
       }
     } catch (error) {
+      log("something went wrong");
+      log(error.toString());
       return error;
     }
   }
@@ -83,6 +85,25 @@ class DioProvider {
 
       if (response.statusCode == 200 && response.data != '') {
         return json.encode(response.data);
+      } else {
+        return 'Error';
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  Future<dynamic> cancelAppointment(int id, String token) async {
+    try {
+      var response =
+          await Dio().post('http://127.0.0.1:80/api/cancelAppointment',
+              data: {
+                'appointment_id': id,
+              },
+              options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      if (response.statusCode == 200 && response.data != '') {
+        return response.statusCode;
       } else {
         return 'Error';
       }

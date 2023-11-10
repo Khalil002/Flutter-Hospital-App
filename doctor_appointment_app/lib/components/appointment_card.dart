@@ -76,8 +76,9 @@ class _AppointmentCardState extends State<AppointmentCard> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
+                  Expanded(child:
+                      Consumer<AuthModel>(builder: (context, auth, child) {
+                    return ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                       ),
@@ -85,9 +86,45 @@ class _AppointmentCardState extends State<AppointmentCard> {
                         'Cancel',
                         style: TextStyle(color: Colors.white),
                       ),
-                      onPressed: () {},
-                    ),
-                  ),
+                      onPressed: () async {
+                        final SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        final token = prefs.getString('token') ?? '';
+
+                        final rating = await DioProvider().cancelAppointment(
+                            widget.doctor['appointments']
+                                ['id'], //this is appointment id
+                            token);
+
+                        //if successful, then refresh
+                        if (rating == 200 && rating != '') {
+                          final response = await DioProvider().getUser(token);
+
+                          if (response != null) {
+                            setState(() {
+                              //json decode
+                              Map<String, dynamic> appointment = {};
+                              final user = json.decode(response);
+
+                              //check if any appointment today
+                              for (var doctorData in user['doctor']) {
+                                //if there is appointment return for today
+
+                                if (doctorData['appointments'] != null) {
+                                  appointment = doctorData;
+                                }
+                              }
+
+                              auth.loginSuccess(user, appointment);
+
+                              MyApp.navigatorKey.currentState!
+                                  .pushNamed('main');
+                            });
+                          }
+                        }
+                      },
+                    );
+                  })),
                   const SizedBox(
                     width: 20,
                   ),
