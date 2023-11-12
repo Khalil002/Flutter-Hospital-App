@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   String _categoryController = "All";
   List<Map<String, dynamic>> medCat = [
     {
-      "icon": FontAwesomeIcons.userDoctor,
+      "icon": FontAwesomeIcons.photoFilm,
       "category": "All",
     },
     {

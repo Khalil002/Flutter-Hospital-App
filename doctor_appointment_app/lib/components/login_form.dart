@@ -107,7 +107,6 @@ class _LoginFormState extends State<LoginForm> {
                               appointment = doctorData;
                             }
                           }
-                          log(appointment.toString());
                           auth.loginSuccess(user, appointment);
                           MyApp.navigatorKey.currentState!.pushNamed('main');
                         });

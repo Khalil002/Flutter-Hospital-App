@@ -196,7 +196,7 @@ class DetailBody extends StatelessWidget {
           ),
           Config.spaceSmall,
           Text(
-            'Dr. ${doctor['doctor_name']} is an experience ${doctor['category']} Specialist at Sarawak, graduated since 2008, and completed his/her training at Sungai Buloh General Hospital.',
+            'Dr. ${doctor['doctor_name']} is an experienced ${doctor['category']} Specialist at Sarawak, graduated since 2008, and completed his/her training at Sungai Buloh General Hospital.',
             style: const TextStyle(
               fontWeight: FontWeight.w500,
               height: 1.5,
